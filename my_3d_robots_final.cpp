@@ -10,8 +10,8 @@ static int shoulder2 = 0;
 static int hand = 0;
 static int turn1 = 0;
 static int tag = 0;
-
-
+double xxx = 0.0;
+int flag = 0;
 static int turn = 0;//转弯
 static float forward = 0;//前进
 static float elbow = 0, z = 0;
@@ -120,7 +120,7 @@ void display(void)
 			}
 		}
 	}
-	
+
 	glBegin(GL_QUADS);
 	glColor3ub(0, 32, 0);
 	glVertex3f(8.0f, -3.0f, -12.0f);
@@ -131,13 +131,13 @@ void display(void)
 	glEnd();
 	//机器人运动
 	glPushMatrix();
-	glTranslatef(forward, 0.0, z); //前进  
+	glTranslatef(forward, 0.0 , z); //前进  
 	glRotatef((GLfloat)turn, 0.0, 1.0, 0.0);
 	//Something();
 
 
 
-	glTranslatef(0.375, 0.0, 0.0);//提起右大腿
+	glTranslatef(0.375, 0.0+xxx , 0.0);//提起右大腿
 	glRotatef((GLfloat)shoulder2, 1.0, 0.0, 0.0);
 
 
@@ -172,7 +172,7 @@ void display(void)
 
 	glTranslatef(0.0, -0.5, 0.0);//提起右小腿   
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	glTranslatef(0.0, -1.0, 0.0);
+	glTranslatef(0.0, -1.0 , 0.0);
 
 	glColor3f(0.5, 0.1, 0.8);
 	glColor3ub(0, 0, 255);
@@ -181,7 +181,7 @@ void display(void)
 	glutWireCube(1.0);
 	glPopMatrix();
 
-	glTranslatef(0.0, -1.0, -0.1);//右脚   
+	glTranslatef(0.0, -1.0 , -0.1);//右脚   
 	glColor3f(0.5, 0.2, 1.0);
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
@@ -191,12 +191,12 @@ void display(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(forward, 0.0, z);
+	glTranslatef(forward, 0.0 , z);
 	glRotatef((GLfloat)turn, 0.0, 1.0, 0.0);
 
-	glTranslatef(-0.375, 0.0, 0.0);//左大腿   
+	glTranslatef(-0.375, 0.0+xxx , 0.0);//左大腿   
 	glRotatef((GLfloat)shoulder1, 1.0, 0.0, 0.0);
-	glTranslatef(0.0, -0.5, 0.0);
+	glTranslatef(0.0, -0.5 , 0.0);
 
 	glColor3f(0.8, 1.0, 0.2);
 	glColor3ub(0, 0, 255);
@@ -206,9 +206,9 @@ void display(void)
 	glPopMatrix();
 
 
-	glTranslatef(0.0, -0.5, 0.0);//左小腿   
+	glTranslatef(0.0, -0.5 , 0.0);//左小腿   
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	glTranslatef(0.0, -1.0, 0.0);
+	glTranslatef(0.0, -1.0 , 0.0);
 
 	glColor3f(0.5, 0.1, 0.8);
 	glColor3ub(0, 0, 255);
@@ -218,7 +218,7 @@ void display(void)
 	glPopMatrix();
 
 
-	glTranslatef(0.0, -1.0, -0.1);//左脚   
+	glTranslatef(0.0, -1.0 , -0.1);//左脚   
 	glColor3f(0.5, 0.2, 1.0);
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
@@ -229,11 +229,11 @@ void display(void)
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(forward, 0.0, z);
+	glTranslatef(forward, 0.0 , z);
 	glRotatef((GLfloat)turn, 0.0, 1.0, 0.0);
 
-	glTranslatef(0.0, 1.0, 0.0);//躯干   
-
+	glTranslatef(0.0, 1.0+xxx , 0.0);//躯干   
+	
 	glColor3f(0.5, 0.5, 1.0);
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
@@ -241,8 +241,8 @@ void display(void)
 	glutWireCube(1.0);
 	glPopMatrix();
 
-	glTranslatef(0.0, 1.25, 0.0);//头   
-	glColor3f(1.0, 0.3, 0.2);
+	glTranslatef(0.0, 1.25 , 0.0);//头    
+	glColor3f(1.0, 0.3, 0.2); 
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
 	glScalef(0.5, 0.5, 0.5);
@@ -252,16 +252,16 @@ void display(void)
 	///////////////////////////帽子
 
 
-	
+
 	glRotatef((GLfloat)90, 1.0, 0.0, 0.0);
 
-	glTranslatef(0.0, 0.0, -0.50);  
+	glTranslatef(0.0, 0.0 , -0.50);
 
 	glColor3f(0.5, 0.5, 1.0);
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
 	glScalef(1.4, 1.0, 0.1);
-	glutWireSphere(1.0,5,5);
+	glutWireSphere(1.0, 5, 5);
 	glPopMatrix();
 
 	///////////////////////////
@@ -286,17 +286,17 @@ void display(void)
 	glPopMatrix();
 
 	///////////////////////////
-	
+
 
 
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(forward, 0.0, z);
+	glTranslatef(forward, 0.0 , z);
 	glRotatef((GLfloat)turn, 0.0, 1.0, 0.0);
 
 
-	glTranslatef(0.85, 1.25, 0.0);//右臂   
+	glTranslatef(0.85, 1.25+xxx , 0.0);//右臂   
 	glRotatef((GLfloat)shoulder1, 1.0, 0.0, 0.0);
 	glTranslatef(0.0, -0.5, 0.0);
 
@@ -323,11 +323,11 @@ void display(void)
 	glPopMatrix();
 	//////////////////
 	////////////////// 剑尖尖
-	glTranslatef(-0.20, -2.20, 0.2);
+	glTranslatef(-0.20, -2.20 , 0.2);
 	glRotatef((GLfloat)90, 1.0, 0.0, 0.0);
 	glPushMatrix();
 	glScalef(-0.56, 0.0, 0.5);
-	glutWireCone(0.30f, 1.1f, 2,2);
+	glutWireCone(0.30f, 1.1f, 2, 2);
 	glPopMatrix();
 	//////////////////
 	glPopMatrix();
@@ -335,7 +335,7 @@ void display(void)
 	glTranslatef(forward, 0.0, z);
 	glRotatef((GLfloat)turn, 0.0, 1.0, 0.0);
 
-	glTranslatef(-0.85, 1.25, 0.0);//左臂   
+	glTranslatef(-0.85, 1.25+xxx, 0.0);//左臂   
 	glRotatef((GLfloat)shoulder2, 1.0, 0.0, 0.0);
 	glTranslatef(0.0, -0.5, 0.0);
 
@@ -363,7 +363,7 @@ void reshape(int w1, int h1)
 	gluPerspective(65.0, (GLfloat)w1 / (GLfloat)h1, 1.0, 20.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(0.0, 0.0, -8.0);
+	glTranslatef(0.0, 0.0 , -8.0);
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -430,13 +430,13 @@ void keyboard(unsigned char key, int x, int y)
 		break;
 	case 'l':
 		shoulder1 = (shoulder1 + 2) % 360;
-		shoulder2 = (shoulder2 - 4) % 360;
+		//shoulder2 = (shoulder2 - 4) % 360;
 		glutPostRedisplay();
 		IsStop = true;
 		break;
 	case 'L':
 		shoulder1 = (shoulder1 - 5) % 360;
-		shoulder2 = (shoulder2 + 10) % 360;
+		//shoulder2 = (shoulder2 + 10) % 360;
 		glutPostRedisplay();
 		IsStop = true;
 		break;
@@ -446,8 +446,17 @@ void keyboard(unsigned char key, int x, int y)
 	case 'p':
 		IsStop = false;
 		break;
-	case 27:
+	case '1':
 		exit(0);
+		break;
+	case 'J':
+	case 'j': 
+		
+		if (flag == 0) xxx += 0.5, shoulder1 += 34;
+		if (xxx >= 2.0) flag = 1;
+		if (flag == 1) xxx -= 0.5, shoulder1 -= 34;
+		if (xxx <= 0.0) flag = 0;
+		glutPostRedisplay();
 		break;
 	default:
 		break;
@@ -569,7 +578,6 @@ int main(int argc, char** argv)
 	glutCreateWindow("一蓑烟雨任平生");
 	SetupRC();
 	glutDisplayFunc(display);
-	//glutDisplayFunc(display1);
 
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
