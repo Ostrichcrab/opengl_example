@@ -11,7 +11,9 @@ static int hand = 0;
 static int turn1 = 0;
 static int tag = 0;
 double xxx = 0.0;
+double yyy = 0.0;
 int flag = 0;
+int fflag = 1;
 static int turn = 0;//转弯
 static float forward = 0;//前进
 static float elbow = 0, z = 0;
@@ -37,7 +39,7 @@ GLboolean bEdgeFlag = TRUE;
 
 
 void setOrthographicProjection();
-void Draw();
+
 //设置背景
 void SetupRC(void)
 {
@@ -59,6 +61,8 @@ void SetupRC(void)
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specref);
 	glMateriali(GL_FRONT, GL_SHININESS, 8);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
 }
 #define MAX_COORD    2
 
@@ -67,59 +71,7 @@ void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glShadeModel(GL_SMOOTH);
-	if (IsStop == false)
-	{
-		turn = (turn - 5) % 360;
-		if (forward < 2)
-		{
-			turn1 = turn;
-			forward = forward - 0.04*sin((GLfloat)turn1 / 360 * 3.14 * 2);
-			z = z - 0.05*cos((GLfloat)turn1 / 360 * 3.14 * 2);
-
-			if (tag == 0) {
-				shoulder1 = (shoulder1 + 3);
-				shoulder2 = (shoulder2 - 3);
-				if (shoulder1 >= 0) { elbow = elbow - 1.2; }
-				else { elbow = elbow + 1.2; }
-			}
-			else
-			{
-				shoulder1 = (shoulder1 - 3);
-				shoulder2 = (shoulder2 + 3);
-				if (shoulder1 >= 0) { elbow = elbow + 1.25; }
-				else { elbow = elbow - 1.2; }
-			}
-			if (shoulder1 > 30) {
-				tag = 1;
-			}
-			if (shoulder1 < -30) {
-				tag = 0;
-			}
-		}
-		else
-		{
-			turn1 = turn;
-			forward = forward + 0.04*sin((GLfloat)turn1 / 360 * 3.14 * 2);
-			z = z + 0.05*cos((GLfloat)turn1 / 360 * 3.14 * 2);
-			if (tag == 0) {
-				shoulder1 = (shoulder1 - 3);
-				shoulder2 = (shoulder2 + 3);
-			}
-			else
-			{
-				shoulder1 = (shoulder1 + 3);
-				shoulder2 = (shoulder2 - 3);
-			}
-			if (shoulder1 > 30)
-			{
-				tag = 0;
-			}
-			if (shoulder1 < -30)
-			{
-				tag = 1;
-			}
-		}
-	}
+	
 
 	glBegin(GL_QUADS);
 	glColor3ub(0, 32, 0);
@@ -152,12 +104,12 @@ void display(void)
 	glTranslatef(lightPos[0], lightPos[1], lightPos[2]);
 
 
-	//glutWireCone(0.3f, 0.3f, 10, 10);
+
 	glPushAttrib(GL_LIGHTING_BIT);
 	glDisable(GL_LIGHTING);
 	glColor3ub(255, 255, 0);
 	glColor3ub(0, 0, 255);
-	//glutWireSphere(0.1f, 10.0f, 10);
+	
 	glPopAttrib();
 	glPopMatrix();
 
@@ -260,7 +212,7 @@ void display(void)
 	glColor3f(0.5, 0.5, 1.0);
 	glColor3ub(0, 0, 255);
 	glPushMatrix();
-	glScalef(1.4, 1.0, 0.1);
+	glScalef(1.3, 1.3, 0.1);
 	glutWireSphere(1.0, 5, 5);
 	glPopMatrix();
 
@@ -307,28 +259,37 @@ void display(void)
 	glutWireCube(1.0);
 	glPopMatrix();
 	//////////////////剑身
-	glTranslatef(0.5, -1.75, 0.0);
-	glRotatef((GLfloat)30.0, 1.0, 1.0, 1.0);
-	glPushMatrix();
-	glScalef(0.3, 2.9, 0.1);
-	glutWireCube(1.0);
-	glPopMatrix();
+	if (!fflag) {
+		glTranslatef(0.5, -1.75-yyy/2, 0.0);
+		glRotatef((GLfloat)30.0, 1.0, 1.0, 1.0);
+		glPushMatrix();
+		glScalef(0.3, 2.9+yyy, 0.1);
+		glutWireCube(1.0);
+		glPopMatrix();
+	}
+	
 	//////////////////
 	//////////////////剑把
-	glTranslatef(0.0, 0.75, 0.0);
-	glRotatef((GLfloat)10.0, 1.0, 1.0, 1.0);
-	glPushMatrix();
-	glScalef(0.93, 0.2, 0.1);
-	glutWireCube(1.0);
-	glPopMatrix();
+	if (!fflag) {
+		glTranslatef(0.0, 0.75+yyy/2, 0.0);
+			glRotatef((GLfloat)10.0, 1.0, 1.0, 1.0);
+			glPushMatrix();
+			glScalef(0.93, 0.2, 0.1);
+			glutWireCube(1.0);
+			glPopMatrix();
+	}
+	
 	//////////////////
 	////////////////// 剑尖尖
-	glTranslatef(-0.20, -2.20 , 0.2);
-	glRotatef((GLfloat)90, 1.0, 0.0, 0.0);
-	glPushMatrix();
-	glScalef(-0.56, 0.0, 0.5);
-	glutWireCone(0.30f, 1.1f, 2, 2);
-	glPopMatrix();
+	if (!fflag) {
+		glTranslatef(-0.20, -2.20-yyy , 0.2);
+			glRotatef((GLfloat)90, 1.0, 0.0, 0.0);
+			glPushMatrix();
+			glScalef(-0.56, 0.0, 0.5);
+			glutWireCone(0.30f, 1.1f, 2, 2);
+			glPopMatrix();
+	}
+	
 	//////////////////
 	glPopMatrix();
 	glPushMatrix();
@@ -429,7 +390,7 @@ void keyboard(unsigned char key, int x, int y)
 		IsStop = true;
 		break;
 	case 'l':
-		shoulder1 = (shoulder1 + 2) % 360;
+		shoulder1 = (shoulder1 + 2) % 360;  //举剑
 		//shoulder2 = (shoulder2 - 4) % 360;
 		glutPostRedisplay();
 		IsStop = true;
@@ -440,22 +401,34 @@ void keyboard(unsigned char key, int x, int y)
 		glutPostRedisplay();
 		IsStop = true;
 		break;
-	case 'P':
-		IsStop = false;
-		break;
-	case 'p':
-		IsStop = false;
-		break;
 	case '1':
 		exit(0);
 		break;
-	case 'J':
+	case 'J'://jump
 	case 'j': 
 		
 		if (flag == 0) xxx += 0.5, shoulder1 += 34;
 		if (xxx >= 2.0) flag = 1;
 		if (flag == 1) xxx -= 0.5, shoulder1 -= 34;
 		if (xxx <= 0.0) flag = 0;
+		glutPostRedisplay();
+		break;
+	case 'f'://伸长
+	case 'F':
+
+		yyy += 0.5;
+		glutPostRedisplay();
+		break;
+	case 'v'://缩短
+	case 'V':
+
+		yyy -= 0.5;
+		glutPostRedisplay();
+		break;
+	case 'x'://隐藏
+	case 'X':
+
+		fflag = !fflag;
 		glutPostRedisplay();
 		break;
 	default:
@@ -479,27 +452,7 @@ void resetPerspectiveProjection()
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 }
-//光源的坐标变化
-void SpecialKeys(int key, int x, int y)
-{
-	if (key == GLUT_KEY_UP)
-		xRot -= 5.0f;
-	if (key == GLUT_KEY_DOWN)
-		xRot += 5.0f;
-	if (key == GLUT_KEY_LEFT)
-		yRot -= 5.0f;
-	if (key == GLUT_KEY_RIGHT)
-		yRot += 5.0f;
-	if (key > 356.0f)
-		xRot = 0.0f;
-	if (key < -1.0f)
-		xRot = 355.0f;
-	if (key > 356.0f)
-		yRot = 0.0f;
-	if (key < -1.0f)
-		yRot = 355.0f;
-	glutPostRedisplay();
-}
+
 //鼠标事件
 void Mouse(int button, int state, int x, int y)
 {
@@ -536,37 +489,6 @@ void Mouse(int button, int state, int x, int y)
 		glutPostRedisplay();
 	}
 }
-//时间函数,定时刷新
-void TimerFunction(int value)
-{
-	display();
-	glutPostRedisplay();
-	glutTimerFunc(33, TimerFunction, 1);
-}
-
-void Draw() {
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_TEXTURE_2D);
-	glBegin(GL_QUADS);
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	for (int z = 0; z < 20; z++) {
-		float zStart = 100.0f - z * 10.0f;
-		for (int x = 0; x < 20; x++) {
-			float xStart = x * 10.0f - 100.0f;
-			if ((z % 2) ^ (x % 2)) {
-				glColor4ub(41, 41, 41, 255);
-			}
-			else {
-				glColor4ub(200, 200, 200, 255);
-			}
-			glVertex3f(xStart, -1.0f, zStart);
-			glVertex3f(xStart + 10.0f, -1.0f, zStart);
-			glVertex3f(xStart + 10.0f, -1.0f, zStart - 10.0f);
-			glVertex3f(xStart, -1.0f, zStart - 10.0f);
-		}
-	}
-	glEnd();
-}
 
 //主函数
 int main(int argc, char** argv)
@@ -581,11 +503,7 @@ int main(int argc, char** argv)
 
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
-	glutSpecialFunc(SpecialKeys);
 	glutMouseFunc(Mouse);
-	//glutTimerFunc(33, TimerFunction, 1);
-	//glutIdleFunc(display); 
-
 	glutMainLoop();
 	return 0;
 }
